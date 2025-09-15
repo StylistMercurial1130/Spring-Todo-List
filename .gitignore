@@ -1,0 +1,43 @@
+# VS Code settings
+.vscode/
+
+# Gradle build output
+.gradle/
+build/
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# STS (Spring Tool Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# Misc
+HELP.md
