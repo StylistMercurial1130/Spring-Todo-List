@@ -1,35 +1,31 @@
 package com.personal.todoapp.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 import com.personal.todoapp.Models.Task;
+import com.personal.todoapp.Repository.TaskRepository;
 
 public class TaskService {
-    private final Queue<Task> tasks;
+        
+    private final TaskRepository taskRepository;
 
-    public TaskService() {
-        tasks = new ConcurrentLinkedDeque<>();
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
-    public boolean addTask(Task task) {
-        return tasks.add(task);
+    public void addTask(Task task) {
+        taskRepository.save(task);
     }  
 
     public List<Task> getTasks(String taskName) {
-        return tasks
-        .stream()
-        .filter(t -> t.taskName().equalsIgnoreCase(taskName))
-        .toList();
+        return taskRepository.findByTaskName(taskName);
     }
 
     public void removeTask(String taskName) {
-        tasks.removeIf(t -> t.taskName().equalsIgnoreCase(taskName));
+        taskRepository.deleteByTaskName(taskName);
     }
 
     public List<Task> getAllTasks() {
-        return tasks.stream().toList();
+        return taskRepository.findAll();
     }
 }
