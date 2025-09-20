@@ -3,6 +3,7 @@ package com.personal.todoapp.Config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.personal.todoapp.Models.mapper.TaskMapper;
 import com.personal.todoapp.Repository.TaskRepository;
 import com.personal.todoapp.services.TaskService;
 
@@ -10,7 +11,7 @@ import com.personal.todoapp.services.TaskService;
 public class ServicesConfig {
     
     @Bean
-    public TaskService createTaskService(TaskRepository taskRepository) {
-        return new TaskService(taskRepository);
+    public TaskService createTaskService(TaskRepository taskRepository,TaskMapper taskMapper) {
+        return new TaskService(taskRepository,taskMapper);
     }
 }

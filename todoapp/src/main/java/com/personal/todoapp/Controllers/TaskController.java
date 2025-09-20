@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.personal.todoapp.Models.Task;
+import com.personal.todoapp.Models.dto.TaskDto;
+import com.personal.todoapp.Models.entities.Task;
 import com.personal.todoapp.services.TaskService;
 
 @RestController
@@ -26,13 +27,12 @@ public class TaskController {
     }
    
     @PostMapping("/add")
-    public void addTask(@RequestBody Task task) {
-        logger.info("adding {}",task);
+    public void addTask(@RequestBody TaskDto task) {
         taskService.addTask(task);
     }
 
     @GetMapping("/search")
-    public List<Task> getTask(@RequestParam(defaultValue = "") String taskName) {
+    public List<TaskDto> getTask(@RequestParam(defaultValue = "") String taskName) {
         return taskService.getTasks(taskName);
     }
 
