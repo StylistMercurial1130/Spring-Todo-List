@@ -1,7 +1,6 @@
 package com.personal.todoapp.services.Task;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -25,7 +24,7 @@ public class TaskFilterService {
         
         if (filter.taskName != null) {
             spec.and((root,query,cb) -> {
-                return cb.equal(root.get("taskName"),filter.taskName);
+                return cb.like(root.get("taskName"),filter.taskName);
             });
         }
 
