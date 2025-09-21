@@ -22,14 +22,12 @@ public class TaskService {
         this.taskMapper = taskMapper;
     }
 
-    public void addTask(TaskDto task) {
-        if (task != null)  {
-            logger.info("Adding task : {}", task);
+    public TaskDto addTask(TaskDto task) {
+        logger.info("Adding task : {}", task);
 
-            var taskEntity = taskMapper.fromDto(task);
-            taskRepository.save(taskEntity);
-        }
-    }  
+        var taskEntity = taskMapper.fromDto(task);
+        return taskMapper.fromEntity(taskRepository.save(taskEntity));
+    }
 
     public Optional<TaskDto> findTaskById(UUID id) {
         if (id == null) return Optional.empty();
@@ -53,7 +51,10 @@ public class TaskService {
         taskRepository.deleteByTaskName(taskName);
     }
 
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public List<TaskDto> getAllTasks() {
+        return taskRepository
+        .findAll().stream()
+        .map(taskMapper::fromEntity)
+        .toList();
     }
 }
