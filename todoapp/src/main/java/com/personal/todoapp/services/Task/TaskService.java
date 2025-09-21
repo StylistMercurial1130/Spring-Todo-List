@@ -1,4 +1,4 @@
-package com.personal.todoapp.services;
+package com.personal.todoapp.services.Task;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +29,7 @@ public class TaskService {
         return taskMapper.fromEntity(taskRepository.save(taskEntity));
     }
 
-    public Optional<TaskDto> findTaskById(UUID id) {
+    public Optional<TaskDto> getTask(UUID id) {
         if (id == null) return Optional.empty();
     
         Task task = taskRepository.findByTaskId(id);
@@ -38,17 +38,8 @@ public class TaskService {
         return Optional.of(taskMapper.fromEntity(task));
     }
 
-    public List<TaskDto> getTasks(String taskName) {
-        return 
-            taskRepository
-            .findByTaskName(taskName)
-            .stream()
-            .map(taskMapper::fromEntity)
-            .toList();
-    }
-
-    public void removeTask(String taskName) {
-        taskRepository.deleteByTaskName(taskName);
+    public void removeTask(UUID taskId) {
+        taskRepository.deleteById(taskId);
     }
 
     public List<TaskDto> getAllTasks() {

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.personal.todoapp.Models.mapper.TaskMapper;
 import com.personal.todoapp.Repository.TaskRepository;
-import com.personal.todoapp.services.TaskService;
+import com.personal.todoapp.services.Task.TaskService;
 
 @Configuration
 public class ServicesConfig {
