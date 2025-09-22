@@ -18,7 +18,7 @@ public enum TaskStatus {
     public static TaskStatus fromString(String status) {
         return Arrays
         .stream(values())
-        .filter(s -> s.toString().equalsIgnoreCase(status))
+        .filter(s -> s.getStatusString().equalsIgnoreCase(status))
         .findAny()
         .orElseThrow();
     }

@@ -27,6 +27,7 @@ public class TaskController {
 
     private final TaskService taskService;
     private final TaskFilterService taskFilterService;
+
     Logger logger = LoggerFactory.getLogger(TaskController.class);
    
     public TaskController(TaskService taskService,TaskFilterService taskFilterService) {

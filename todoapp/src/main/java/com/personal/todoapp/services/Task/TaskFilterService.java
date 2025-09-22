@@ -3,19 +3,20 @@ package com.personal.todoapp.services.Task;
 import java.util.List;
 import java.util.Arrays;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 
 import com.personal.todoapp.Models.dto.TaskDto;
 import com.personal.todoapp.Models.dto.TaskFilter;
-import com.personal.todoapp.Models.entities.Task;
 import com.personal.todoapp.Models.mapper.TaskMapper;
 import com.personal.todoapp.Repository.TaskRepository;
 
 public class TaskFilterService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+
+    org.slf4j.Logger logger = LoggerFactory.getLogger(TaskFilterService.class);
 
     public TaskFilterService(TaskRepository taskRepository,TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
@@ -26,62 +27,47 @@ public class TaskFilterService {
         Ascending("asc"), 
         Descending("desc"); 
         
+        private final String sortOrder;
+        
         SortOrder(String sortOrder) {
+            this.sortOrder = sortOrder;
         }
 
-        public static SortOrder fromString(String status) {
+        public static SortOrder fromString(String order) {
             return Arrays
             .stream(values())
-            .filter(o -> o.toString().equalsIgnoreCase(status))
+            .filter(o -> o.getSortOrder().equalsIgnoreCase(order))
             .findAny()
             .orElseThrow();
         };
+    
+        public String getSortOrder() {
+            return this.sortOrder;
+        }
     };
     
-    private Specification<Task> constructSpec(TaskFilter filter) {
-        Specification<Task> spec = (root, query, cb) -> null;
-        
-        if (filter.taskName != null) {
-            spec.and((root,query,cb) -> {
-                return cb.like(root.get("taskName"),filter.taskName);
-            });
-        }
-
-        if (filter.taskStatusValues != null && !filter.taskStatusValues.isEmpty()) {
-            spec.and((root,query,cb) -> {
-                return root.get("taskStatus").in(filter.taskStatusValues);
-            });
-        }
-
-        if (filter.priorityValues != null && !filter.priorityValues.isEmpty()) {
-            spec.and((root,query,cb) -> {
-                return root.get("taskPriority").in(filter.priorityValues);
-            });
-        }
-
-        return spec;
-    }
-
     private PageRequest constructPageableRequest(TaskFilter taskFilter) {
         String sortColumn = 
             taskFilter.sortBy == null || taskFilter.sortBy.isEmpty() || taskFilter.sortBy.isBlank() ? 
             "taskName" : taskFilter.sortBy;
 
+        logger.info("sort order {}",taskFilter.sortOrder);
         SortOrder sortOrder = 
             taskFilter.sortOrder == null || taskFilter.sortOrder.isBlank() || taskFilter.sortOrder.isEmpty() ?
-            SortOrder.Ascending : SortOrder.fromString(sortColumn);
+            SortOrder.Ascending : SortOrder.fromString(taskFilter.sortOrder);
 
-        int pageSize = taskFilter.pageSize == 0 ? 10 : taskFilter.pageSize;    
+        int pageSize = taskFilter.pageSize == 0 ? 10 : taskFilter.pageSize;  
+        int page = taskFilter.page;  
         
         switch(sortOrder) {
-            case Ascending : return PageRequest.of(taskFilter.page,pageSize,Sort.by(sortColumn).ascending());
-            case Descending: return PageRequest.of(taskFilter.page,pageSize,Sort.by(sortColumn).descending()); 
+            case Ascending : return PageRequest.of(page,pageSize,Sort.by(sortColumn).ascending());
+            case Descending: return PageRequest.of(page,pageSize,Sort.by(sortColumn).descending()); 
             default : return null;
         }  
     }
 
     public List<TaskDto> filter(TaskFilter filter) {
-        var spec = constructSpec(filter);
+        var spec = new TaskSpecification(filter);
         var pageRequest = constructPageableRequest(filter);
         
         var page = pageRequest == null ? 
