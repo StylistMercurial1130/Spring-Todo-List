@@ -10,12 +10,13 @@ import com.personal.todoapp.Models.dto.TaskDto;
 import com.personal.todoapp.Models.entities.Task;
 import com.personal.todoapp.Models.mapper.TaskMapper;
 import com.personal.todoapp.Repository.TaskRepository;
+import org.slf4j.LoggerFactory;
 
 public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
 
-    private Logger logger = org.slf4j.LoggerFactory.getLogger(TaskService.class);
+    private Logger logger = LoggerFactory.getLogger(TaskService.class);
 
     public TaskService(TaskRepository taskRepository,TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
