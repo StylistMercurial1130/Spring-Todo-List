@@ -67,7 +67,7 @@ public class TaskController {
     @PostMapping("/tasks")
     public ResponseEntity<List<TaskDto>> getTasks(@RequestBody TaskFilter filter) {
         if (filter == null) {
-            throw new RequestException("request bodg is null !");
+            throw new RequestException("request body is null !");
         }
     
         return ResponseEntity.ok(taskFilterService.filter(filter));

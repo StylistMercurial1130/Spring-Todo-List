@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Task implements Serializable {
-    @Id 
+    @Id
     private UUID taskId;
 
     private String taskName;
@@ -56,19 +56,19 @@ public class Task implements Serializable {
         this.taskPriority = taskPriority;
     }
 
-    public Task(String taskName,TaskStatus taskStatus,String taskSummary,int taskPriority) {
+    public Task(String taskName, TaskStatus taskStatus, String taskSummary, int taskPriority) {
         this.taskId = UUID.randomUUID();
         this.taskName = taskName;
         this.taskStatus = taskStatus;
         this.taskSummary = taskSummary;
         this.taskPriority = taskPriority;
     }
-    
+
     public Task() {
         this.taskId = UUID.randomUUID();
     }
-    
+
     public String toString() {
-        return String.format(displayFormat,taskId.toString(),taskName,taskSummary,taskPriority);
+        return String.format(displayFormat, taskId.toString(), taskName, taskSummary, taskPriority);
     }
 }

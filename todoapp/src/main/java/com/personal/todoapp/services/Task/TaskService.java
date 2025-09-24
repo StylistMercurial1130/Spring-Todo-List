@@ -18,7 +18,7 @@ public class TaskService {
 
     private Logger logger = LoggerFactory.getLogger(TaskService.class);
 
-    public TaskService(TaskRepository taskRepository,TaskMapper taskMapper) {
+    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
     }
@@ -31,22 +31,26 @@ public class TaskService {
     }
 
     public Optional<TaskDto> getTask(UUID id) {
-        if (id == null) return Optional.empty();
-    
+        if (id == null)
+            return Optional.empty();
+
         Task task = taskRepository.findByTaskId(id);
-        if (task == null)  return Optional.empty();
-        
+        if (task == null)
+            return Optional.empty();
+
         return Optional.of(taskMapper.fromEntity(task));
     }
 
     public void removeTask(UUID taskId) {
-        taskRepository.deleteById(taskId);
+        if (taskId != null) {
+            taskRepository.deleteById(taskId);
+        }
     }
 
     public List<TaskDto> getAllTasks() {
         return taskRepository
-        .findAll().stream()
-        .map(taskMapper::fromEntity)
-        .toList();
+                .findAll().stream()
+                .map(taskMapper::fromEntity)
+                .toList();
     }
 }
