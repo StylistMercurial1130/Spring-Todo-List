@@ -24,7 +24,7 @@ public class AuthenticaitonConfig {
             .cors(c -> c.disable())
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> 
-                a.requestMatchers("/auth/login").permitAll()
+                a.requestMatchers("/auth/*","/accounts/*").permitAll()
                 .anyRequest().authenticated()
             ).addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
 

@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.personal.todoapp.Models.entities.User;
 
 public interface UsersRepository extends JpaRepository<User,UUID> {
-    Optional<User> findByEmail(String email);
+    Optional<User> findByEmailId(String email);
 }

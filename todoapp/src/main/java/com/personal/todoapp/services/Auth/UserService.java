@@ -18,7 +18,7 @@ public class UserService {
 
     private boolean userExists(String emailId) {
         return usersRepository
-        .findByEmail(emailId)
+        .findByEmailId(emailId)
         .isPresent();
     }
 
@@ -35,13 +35,13 @@ public class UserService {
             return Optional.empty();
         }
 
-        var user = usersRepository.findByEmail(emailId).get();
+        var user = usersRepository.findByEmailId(emailId).get();
         usersRepository.delete(user); 
         
         return Optional.of(user);
     }
 
     public Optional<User> getUser(String emailId) {
-        return usersRepository.findByEmail(emailId);
+        return usersRepository.findByEmailId(emailId);
     }
 }

@@ -67,6 +67,10 @@ public class User implements UserDetails {
         this.id = UUID.randomUUID();
     }
 
+    public User() {
+        this.id = UUID.randomUUID();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

@@ -1,6 +1,8 @@
 package com.personal.todoapp.Controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +12,7 @@ import com.personal.todoapp.Models.dto.UserDto;
 import com.personal.todoapp.services.Auth.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/accounts")
 public class UserController {
     private final UserService userService;
 
@@ -18,6 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/user")
     public ResponseEntity<Void> createUser(@RequestBody UserDto user) {
         if (userService.getUser(user.emailId).isPresent()) {
             throw new ConflictException("cant create a new user, user exists !");
@@ -28,6 +31,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/user")
     public ResponseEntity<Void> deleteUser(String emailId) {
         if (userService.getUser(emailId).isEmpty()) {
             throw new ConflictException("can't delete user, does not exist !");
