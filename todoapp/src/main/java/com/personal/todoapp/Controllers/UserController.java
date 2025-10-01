@@ -27,4 +27,14 @@ public class UserController {
 
         return ResponseEntity.ok().build();
     }
+
+    public ResponseEntity<Void> deleteUser(String emailId) {
+        if (userService.getUser(emailId).isEmpty()) {
+            throw new ConflictException("can't delete user, does not exist !");
+        }
+
+        userService.deleteUser(emailId);
+    
+        return ResponseEntity.ok().build();
+    }
 }
