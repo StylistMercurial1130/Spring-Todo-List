@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import com.personal.todoapp.Models.dto.TaskFilter;
 import com.personal.todoapp.Models.entities.Task;
@@ -26,7 +28,10 @@ public class TaskSpecification implements Specification<Task> {
     }
 
     @Override
-    public Predicate toPredicate(Root<Task> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(
+        @NonNull Root<Task> root, 
+        @Nullable CriteriaQuery<?> query, 
+        @NonNull CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = new ArrayList<>();
         
         if (filterFieldIsNullOrEmpty(filter.taskName)) {

@@ -10,7 +10,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.personal.todoapp.Exceptions.ErrorResponse;
 import com.personal.todoapp.services.Auth.AuthService;
-import com.personal.todoapp.services.Auth.UserService;
 import org.springframework.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

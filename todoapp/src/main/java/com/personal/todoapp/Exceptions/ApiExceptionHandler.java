@@ -23,4 +23,19 @@ public class ApiExceptionHandler {
             HttpStatus.BAD_REQUEST
         );
     }
+
+    @ExceptionHandler(UnAuthorizedUserException.class)
+    public ResponseEntity<ErrorResponse> handleAuthExceptions(UnAuthorizedUserException ex) {
+        return new ResponseEntity<ErrorResponse>(
+            new ErrorResponse(HttpStatus.UNAUTHORIZED.value(),ex.getMessage()),
+            HttpStatus.UNAUTHORIZED
+        );
+    }
+
+    public ResponseEntity<ErrorResponse> handleConflictException(ConflictException ex) {
+        return new ResponseEntity<>(
+            new ErrorResponse(HttpStatus.CONFLICT.value(), ex.getMessage()),
+            HttpStatus.CONFLICT 
+        );
+    }
 }
